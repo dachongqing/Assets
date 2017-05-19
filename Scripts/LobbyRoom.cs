@@ -9,17 +9,14 @@ public class LobbyRoom : MonoBehaviour, RoomInterface
 
 	private String roomName;
 
-	private int[] xyz;
+	[SerializeField]private int[] xyz;
 
 	private RoomConstant rc;
 
 	public GameObject northDoor;
-
 	public GameObject southDoor;
-
-	public GameObject eastDoor;
-
 	public GameObject westDoor;
+	public GameObject eastDoor;
 
     private Dictionary<String, EventInterface> eventsList = new Dictionary<string, EventInterface>();
 
@@ -41,24 +38,11 @@ public class LobbyRoom : MonoBehaviour, RoomInterface
 		return xyz;
 	}
 
-	public void setXYZ (int[] xyz)
+	void RoomInterface.setXYZ (int[] xyz)
 	{
 		this.xyz = xyz;
 	}
-
-
-	// Use this for initialization
-	void Start ()
-	{
-       
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
 		
-	}
-
 	public void northDoorEnable ()
 	{
 		//		northDoor.GetComponent<DoorInterface>().enabled = true;
@@ -76,19 +60,32 @@ public class LobbyRoom : MonoBehaviour, RoomInterface
 	{
 		//           westDoor.GetComponent<MonoBehaviour>().enabled = true;
 
-		eastDoor.GetComponent<DoorInterface> ().setShowFlag (true);//门的图片要替换
+		westDoor.GetComponent<DoorInterface> ().setShowFlag (true);//门的图片要替换
 	}
 
 	public void eastDoorEnable ()
 	{
 		//           eastDoor.GetComponent<MonoBehaviour>().enabled = true;
-		westDoor.GetComponent<DoorInterface> ().setShowFlag (true);//门的图片要替换
+		eastDoor.GetComponent<DoorInterface> ().setShowFlag (true);//门的图片要替换
 	}
 		
 	GameObject RoomInterface.getNorthDoor()
 	{
 		return northDoor;
 	}
+	GameObject RoomInterface.getSouthDoor()
+	{
+		return southDoor;
+	}
+	GameObject RoomInterface.getEastDoor()
+	{
+		return eastDoor;
+	}
+	GameObject RoomInterface.getWestDoor()
+	{
+		return westDoor;
+	}
+
 
     public EventInterface getEvent(string eventType)
     {

@@ -8,8 +8,7 @@ public class initMap : MonoBehaviour
 {
 
 	[Tooltip ("请指定Prefab基本房间")]public GameObject unitMap;
-    // bug 不支持3个参数
-   // [Range(-1,0,1)]public int roomLevel=0;
+	[Range(-1,1)]public int roomLevel=0;
 	[Range (1, 15)]public int roomAmount = 5;
 	[Tooltip ("水平调整偏移")][Range (0f, 30f)]public float horizonDis = 7.5f;
 	[Tooltip ("竖直调整偏移")][Range (0f, 30f)]public float vertiDis = 7.5f;
@@ -30,26 +29,24 @@ public class initMap : MonoBehaviour
 		//在场景中搜索房间起点
 		mapSpawnPoint = GameObject.Find ("MapSpawnPoint").GetComponent<Transform> ();
 		//生成好的地图数据<房间坐标xy,门的信息>
-		Dictionary<int[], int[]> map = mapManager.genMap (0,roomAmount);
+		Dictionary<int[], int[]> map = mapManager.genMap (roomLevel,roomAmount);
 
+		//根据地图数据，生成新房间
 		foreach (int[] key in map.Keys) {
+			//新房间在地图中的坐标
+			int[] rXYZ = new int[]{key[0],key[1],key[2]};
+			//产生新房间
+			unitMap = roomManager.genRoom (rXYZ,map [key]);
+
 			//预备给新房间的坐标
 			Vector3 newMap = mapSpawnPoint.position;
 			//根据房间的宽度，水平偏移
-			if (key [0] != 0) {
-				newMap.x = key [0] * horizonDis;      
-			}
+			newMap.x = key [0] * horizonDis;      
 			//根据房间的高度，竖直偏移
-			if (key [1] != 0) {
-				newMap.y = key [1] * vertiDis;
-			}
-			//z值为0
+			newMap.y = key [1] * vertiDis;
+			//根据房间的楼层，设定z坐标值
 			newMap.z = key[2];
-
-			int[] rXYZ = {key[0],key[1],key[2]};
-			//房间生成器返回新生成的房间
-			unitMap = roomManager.genRoom (rXYZ,map [key]);
-			//设置新房间的坐标
+			//设置新房间在屏幕上的坐标
 			unitMap.transform.position = newMap;
 		}
 	}

@@ -43,5 +43,8 @@ public interface RoomInterface
 
 
     GameObject getNorthDoor();
+	GameObject getSouthDoor();
+	GameObject getEastDoor();
+	GameObject getWestDoor();
 
 }

@@ -7,9 +7,9 @@ public class WoodDoor : MonoBehaviour, DoorInterface
 {
 	public Sprite DoorSprite;
 
-	private int[] nextRoomXYZ;
+	[SerializeField]private int[] nextRoomXYZ;
 
-	bool showFlag;
+	[SerializeField]bool showFlag;
 
 	private RoomInterface ri;
 
