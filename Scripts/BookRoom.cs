@@ -28,13 +28,11 @@ public class BookRoom : MonoBehaviour, RoomInterface
 		return "书房";
 	}
 
-	int RoomInterface.getRoomType ()
+	string RoomInterface.getRoomType ()
 	{
-		return rc.ROOM_TYPE_LOBBY;
+		return rc.ROOM_TYPE_BOOK_ROOM;
 	}
-
-
-
+        
 	int[] RoomInterface.getXYZ ()
 	{
 		return xyz;

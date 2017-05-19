@@ -29,7 +29,7 @@ public class LobbyRoom : MonoBehaviour, RoomInterface
 		return "大厅"; 
 	}
 
-	int RoomInterface.getRoomType ()
+	string RoomInterface.getRoomType ()
 	{
 		return rc.ROOM_TYPE_LOBBY;
 	}

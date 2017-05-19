@@ -121,7 +121,8 @@ public class MapContraller  {
 
         while (initR < roomNumb)
         {
-            xy = orderList(xy);
+            //xy = orderList(xy);
+            xy =  FunctionUnity<int[]>.orderList(xy);
             int[] gRoom = xy[0];
 
             if (checkRoom(hashMap, gRoom) != null)

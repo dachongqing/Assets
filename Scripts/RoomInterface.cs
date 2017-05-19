@@ -15,8 +15,8 @@ public interface RoomInterface
     void setXYZ(int[] xyz);
 
     //获取当前房间类型
-    int getRoomType();
-
+    string getRoomType();
+       
     void northDoorEnable();
 
     void southDoorEnable();
