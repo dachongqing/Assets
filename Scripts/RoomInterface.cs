@@ -38,6 +38,6 @@ public interface RoomInterface
     //
 
 
-	GameObject getNorthDoor();
+    GameObject getNorthDoor();
 
 }

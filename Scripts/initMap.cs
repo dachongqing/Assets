@@ -8,7 +8,8 @@ public class initMap : MonoBehaviour
 {
 
 	[Tooltip ("请指定Prefab基本房间")]public GameObject unitMap;
-	[Range(-1,0,1)]public int roomLevel=0;
+    // bug 不支持3个参数
+   // [Range(-1,0,1)]public int roomLevel=0;
 	[Range (1, 15)]public int roomAmount = 5;
 	[Tooltip ("水平调整偏移")][Range (0f, 30f)]public float horizonDis = 7.5f;
 	[Tooltip ("竖直调整偏移")][Range (0f, 30f)]public float vertiDis = 7.5f;
@@ -29,7 +30,7 @@ public class initMap : MonoBehaviour
 		//在场景中搜索房间起点
 		mapSpawnPoint = GameObject.Find ("MapSpawnPoint").GetComponent<Transform> ();
 		//生成好的地图数据<房间坐标xy,门的信息>
-		Dictionary<int[], int[]> map = mapManager.genMap (roomLevel,roomAmount);
+		Dictionary<int[], int[]> map = mapManager.genMap (0,roomAmount);
 
 		foreach (int[] key in map.Keys) {
 			//预备给新房间的坐标

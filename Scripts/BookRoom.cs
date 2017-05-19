@@ -20,6 +20,8 @@ public class BookRoom : MonoBehaviour, RoomInterface
 
 	public GameObject westDoor;
 
+    private Dictionary<String, EventInterface> eventsList = new Dictionary<string, EventInterface>();
+
 
 	string RoomInterface.getRoomName ()
 	{
@@ -86,5 +88,15 @@ public class BookRoom : MonoBehaviour, RoomInterface
 	{
 		return northDoor;
 	}
-		
+
+    public EventInterface getEvent(string eventType)
+    {
+        return eventsList[eventType];
+    }
+
+    public void setEvent(EventInterface ei)
+    {
+        eventsList.Add(ei.getEventType(), ei);
+
+    }
 }

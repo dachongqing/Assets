@@ -2,28 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoundController : MonoBehaviour {
+public class RoundController : MonoBehaviour
+{
 
     private Queue<Character> roundList = new Queue<Character>();
 
     private bool isRoundEnd;
 
-    
+
 
     private Character playChara;
 
 
 
-    private Controls player;
+    private Player player;
 
-    private Hazard ai;
+    //private Hazard ai;
 
-    public Character getNextCharecter( ) {
+    public Character getNextCharecter()
+    {
         Debug.Log(" Queue number is " + roundList.Count);
         return roundList.Dequeue();
     }
 
-    public void setEndRound(Character chara) {
+    public void setEndRound(Character chara)
+    {
         roundList.Enqueue(chara);
     }
 
@@ -31,34 +34,41 @@ public class RoundController : MonoBehaviour {
     private OperatorState mState = OperatorState.Player;
 
     //定义操作状态枚举  
-    public enum OperatorState  
-        {  
-                Quit,  
-                EnemyAI,  
-                Player
-        }
+    public enum OperatorState
+    {
+        Quit,
+        EnemyAI,
+        Player
+    }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
-        //init
-        player = FindObjectOfType<Controls>();
-        ai = FindObjectOfType<Hazard>();
+        //目前是写死。。后面需要改为程序控制添加 游戏人数
+        player = FindObjectOfType<Player>();
+        //  ai = FindObjectOfType<Hazard>();
         setEndRound(player);
-        setEndRound(ai);
+        //  setEndRound(ai);
         isRoundEnd = false;
-        playChara =  this.getNextCharecter();
+        playChara = this.getNextCharecter();
         Debug.Log(playChara.getName() + " round this game");
     }
 
-    public IEnumerator charaMove() {
+    public Character getCurrentRoundChar() {
+        return this.playChara;
+    }
+
+    public IEnumerator charaMove()
+    {
 
         playChara.roundStart();
         yield return new WaitForSeconds(2);
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
 
 
         /***
@@ -73,11 +83,20 @@ public class RoundController : MonoBehaviour {
         * 设置黑屏
         */
 
-        if (isRoundEnd) {
+        if (isRoundEnd)
+        {
             playChara = this.getNextCharecter();
             Debug.Log(playChara.getName() + " round this game");
             isRoundEnd = false;
-            StartCoroutine("charaMove");
+            if (playChara.isPlayer())
+            {
+                mState = OperatorState.Player;
+                //解除黑屏
+            }
+            else
+            {
+                StartCoroutine("charaMove");
+            }
         }
 
 
@@ -98,7 +117,7 @@ public class RoundController : MonoBehaviour {
                         Debug.Log("wait ai move");
                         //开始黑屏
                     }
-                   
+
                     break;
                 //NPC 怪物回合
                 case OperatorState.EnemyAI:
@@ -109,25 +128,29 @@ public class RoundController : MonoBehaviour {
                         Debug.Log("wait player Action");
 
                     }
-                    else {
+                    else
+                    {
                         //开始黑屏
                     }
-                    if (playChara.isRoundOver()) {
-                        mState = OperatorState.Player;
+                    if (playChara.isRoundOver())
+                    {
+
                         this.setEndRound(playChara);
                         isRoundEnd = true;
-                        Debug.Log("ai done,wait player move");
+                        Debug.Log("ai done,wait next ai move");
                     }
                     break;
             }
 
         }
-        else {
+        else
+        {
             if (playChara.isPlayer())
             {
                 //game over 
             }
-            else {
+            else
+            {
                 isRoundEnd = true;
             }
 

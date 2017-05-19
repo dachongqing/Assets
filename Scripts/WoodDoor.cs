@@ -13,7 +13,11 @@ public class WoodDoor : MonoBehaviour, DoorInterface
 
 	private RoomInterface ri;
 
-	public void setNextRoomXY (int[] xyz)
+    public EventController eventController;
+
+    public RoundController roundController;
+
+    public void setNextRoomXY (int[] xyz)
 	{
 		this.nextRoomXYZ = xyz;
 	}
@@ -37,7 +41,7 @@ public class WoodDoor : MonoBehaviour, DoorInterface
 		return nextRoomXYZ;
 	}
 
-	RoomInterface DoorInterface.getRoom ()
+	public RoomInterface getRoom ()
 	{
 		return ri;
 	}
@@ -51,28 +55,44 @@ public class WoodDoor : MonoBehaviour, DoorInterface
 	{
 		//可以自定义不同的门，消耗不同的行动力
 	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Use this for initialization
+    void Start()
+    {
+        eventController = FindObjectOfType<EventController>();
+
+        roundController = FindObjectOfType<RoundController>();
+    }
+
+    // Update is called once per frame
+    void Update ()
 	{
 
-		//伪代码
-		/***
+        //伪代码
+        /***
          * 监听门点击事件
          * 
          * 先扣除行动力
          * openDoor（）；
-         * 
-         * 调用事件处理器处理事情
-         * bool result = EventController.handleLeaveEvent（getRoom().getEvent(EventConstant.LEAVE),player）;
-         * 
-         * result == true
-         * 可以离开房间
-         * == false
-         * 离开房间失败
-        */
+         */ 
+         // 调用事件处理器处理事情
 
-	}
+         bool result = eventController.excuteLeaveRoomEvent(getRoom(), roundController.getCurrentRoundChar());
+
+        if(result == true)
+        {
+            //离开门成功
+            //进入下一个房间
+        }else
+        {
+            //离开失败
+        }
+         
+        
+
+        
+
+    }
 
 	//鼠标进入门区域
 	void OnMouseEnter ()
