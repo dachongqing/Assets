@@ -25,6 +25,8 @@ public interface Character  {
     //角色所在房间
     int[] getCurrentRoom();
 
+    void setCurrentRoom(int[] nextRoomXYZ);
+
     //获取行动力
     int getActionPoint();
 

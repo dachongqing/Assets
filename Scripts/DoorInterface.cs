@@ -11,17 +11,17 @@ public interface DoorInterface
 	void setShowFlag (bool showFlag);
 
 	//门通往房间的坐标
-	int[] getNextRoomXY ();
+	int[] getNextRoomXYZ ();
 
-	void setNextRoomXY (int[] xyz);
+	void setNextRoomXYZ (int[] xyz);
 
 	//获取当前房间对象
 	RoomInterface getRoom ();
 
 	void setRoom (RoomInterface room);
 
-	//开门事件：扣除行动力 需要参数
-	void openDoor (GameObject movePoint);
+    //开门事件：扣除行动力 需要参数
+    bool openDoor (Character chara);
 
 
 }

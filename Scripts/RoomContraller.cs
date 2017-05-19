@@ -12,6 +12,8 @@ public class RoomContraller : MonoBehaviour
 
 	private Queue<String> downRoomType = new Queue<String> ();
 
+    private Dictionary<int[], RoomInterface> roomList = new Dictionary<int[], RoomInterface>(); 
+
 	//这个队列的长度，限制了房间最大数量
 	public RoomContraller ()
 	{
@@ -56,7 +58,7 @@ public class RoomContraller : MonoBehaviour
 				ri.northDoorEnable ();
 				GameObject doorGo=ri.getNorthDoor();
 				doorGo.GetComponent<DoorInterface>().setRoom(ri);
-				doorGo.GetComponent<DoorInterface>().setNextRoomXY(nextRoomXYZ);
+				doorGo.GetComponent<DoorInterface>().setNextRoomXYZ(nextRoomXYZ);
 
 			}
 			if (door [1] == 1) {
@@ -70,9 +72,22 @@ public class RoomContraller : MonoBehaviour
 				
 				ri.westDoorEnable ();
 			}
+        roomList.Add(ri.getXYZ(),ri);
 		}
 
-		return room;
+        return room;
 	}
-	
+
+
+    public RoomInterface findRoomByXYZ(int[] xyz) {
+
+        foreach (int[] key in roomList.Keys)
+        {
+            if (key[0] == xyz[0] && key[1] == xyz[1] && key[2] == xyz[2])
+            {
+                return roomList[key];
+            }
+        }
+        return null;
+    }
 }

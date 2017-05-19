@@ -28,6 +28,11 @@ public class Player : MonoBehaviour, NPC {
         return xyz;
     }
 
+    public void setCurrentRoom(int[] xyz)
+    {
+        this.xyz = xyz;
+    }
+
     public string getName()
     {
         return playerName;

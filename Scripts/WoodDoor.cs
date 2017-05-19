@@ -17,7 +17,9 @@ public class WoodDoor : MonoBehaviour, DoorInterface
 
     public RoundController roundController;
 
-    public void setNextRoomXY (int[] xyz)
+    public RoomContraller roomContraller;
+
+    public void setNextRoomXYZ (int[] xyz)
 	{
 		this.nextRoomXYZ = xyz;
 	}
@@ -36,7 +38,7 @@ public class WoodDoor : MonoBehaviour, DoorInterface
 		sPrRe.sprite = DoorSprite;
 	}
 
-	int[] DoorInterface.getNextRoomXY ()
+	public int[] getNextRoomXYZ ()
 	{
 		return nextRoomXYZ;
 	}
@@ -51,10 +53,20 @@ public class WoodDoor : MonoBehaviour, DoorInterface
 		return showFlag;
 	}
 
-	void DoorInterface.openDoor (GameObject movePoint)
+	public bool openDoor (Character chara)
 	{
-		//可以自定义不同的门，消耗不同的行动力
-	}
+        //可以自定义不同的门，消耗不同的行动力
+        if (chara.getActionPoint() - 1 >= 0)
+        {
+            chara.updateActionPoint(chara.getActionPoint() - 1);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
 
     // Use this for initialization
     void Start()
@@ -62,6 +74,8 @@ public class WoodDoor : MonoBehaviour, DoorInterface
         eventController = FindObjectOfType<EventController>();
 
         roundController = FindObjectOfType<RoundController>();
+
+        roomContraller = FindObjectOfType<RoomContraller>();
     }
 
     // Update is called once per frame
@@ -72,30 +86,48 @@ public class WoodDoor : MonoBehaviour, DoorInterface
         /***
          * 监听门点击事件
          * 
-         * 先扣除行动力
-         * openDoor（）；
-         */ 
-         // 调用事件处理器处理事情
-
-         bool result = eventController.excuteLeaveRoomEvent(getRoom(), roundController.getCurrentRoundChar());
-
-        if(result == true)
-        {
-            //离开门成功
-            //进入下一个房间
-        }else
-        {
-            //离开失败
-        }
          
-        
+         if( )
+        {
+         * 先扣除行动力
+         * bool opened = openDoor（roundController.getCurrentRoundChar()）；
+         * 
+         * if(opened) {
+         // 调用事件处理器处理事情
+             bool result = eventController.excuteLeaveRoomEvent(getRoom(), roundController.getCurrentRoundChar());
 
-        
+            if(result == true)
+            {
+                //离开门成功
+                //进入下一个房间
+                RoomInterface nextRoom = roomContraller.findRoomByXYZ(getNextRoomXYZ());
+                //摄像机移动到下一个房间坐标
+
+
+
+                //当前人物坐标移动到下一个房间
+                 roundController.getCurrentRoundChar().setCurrentRoom(getNextRoomXYZ());
+
+                //触发进门事件
+                eventController.excuteEnterRoomEvent(nextRoom, roundController.getCurrentRoundChar());
+            }
+            else
+            {
+                //离开失败
+            }
+         * 
+         * }
+
+        }
+         */
+
+
+
 
     }
 
-	//鼠标进入门区域
-	void OnMouseEnter ()
+    //鼠标进入门区域
+    void OnMouseEnter ()
 	{
 		//仅对启用的门有效
 		if (showFlag) {
