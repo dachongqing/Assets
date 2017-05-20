@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dice6 : MonoBehaviour,Dice {
+public class Dice6 : Dice {
 
     int _DiceRes;
 

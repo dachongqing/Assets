@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, NPC {
 
-    private int actionPoint;
+	[SerializeField]private int actionPoint;
 
     private int[] abilityInfo;
 
-    private int[] xyz;
+	[SerializeField] private int[] xyz;
 
     private String playerName;
 
@@ -60,7 +60,7 @@ public class Player : MonoBehaviour, NPC {
 
     public void roundStart()
     {
-       
+       //可以roll点
     }
 
     public void updateActionPoint(int actionPoint)
@@ -70,7 +70,10 @@ public class Player : MonoBehaviour, NPC {
 
     // Use this for initialization
     void Start () {
-		
+		//游戏一开始 所处的房间 默认房间的坐标为 0,0,0
+		int[] roomXYZ={0,0,0};
+		setCurrentRoom(roomXYZ);
+		Debug.Log ("Player.cs Start() 玩家进入默认房间");
 	}
 	
 	// Update is called once per frame

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//这个脚本不知道是来干嘛的
+
 public class doorControl : MonoBehaviour {
 
     public Animator animator;
