@@ -14,29 +14,70 @@ public class RoomContraller : MonoBehaviour
 
 	private Dictionary<int[], RoomInterface> roomList = new Dictionary<int[], RoomInterface> ();
 
-	//这个队列的长度，限制了房间最大数量
-	public RoomContraller ()
+    private System.Random random = new System.Random();
+
+    private List<EventInterface> events = new List<EventInterface>();
+
+    private RoomConstant roomConstant;
+
+    //这个队列的长度，限制了房间最大数量
+    public RoomContraller ()
 	{
-		groundRoomType.Enqueue ("LobbyRoom");
-		groundRoomType.Enqueue ("BookRoom");
-		groundRoomType.Enqueue ("LobbyRoom");
-		groundRoomType.Enqueue ("BookRoom");
-		groundRoomType.Enqueue ("LobbyRoom");
-		groundRoomType.Enqueue ("BookRoom");
-		groundRoomType.Enqueue ("LobbyRoom");
-		groundRoomType.Enqueue ("BookRoom");
-		groundRoomType.Enqueue ("LobbyRoom");
-		groundRoomType.Enqueue ("BookRoom");
-		groundRoomType.Enqueue ("LobbyRoom");
-		groundRoomType.Enqueue ("BookRoom");
-		groundRoomType.Enqueue ("LobbyRoom");
-		groundRoomType.Enqueue ("BookRoom");
-		groundRoomType.Enqueue ("LobbyRoom");
-		groundRoomType.Enqueue ("BookRoom");
-	}
+        genRoomType();
+    }
+
+    private void genRoomType()
+    {
+        //这个队列的长度，限制了房间最大数量
+        groundRoomType.Enqueue("LobbyRoom");
+        groundRoomType.Enqueue("BookRoom");
+        groundRoomType.Enqueue("LobbyRoom");
+        groundRoomType.Enqueue("BookRoom");
+        groundRoomType.Enqueue("LobbyRoom");
+        groundRoomType.Enqueue("BookRoom");
+        groundRoomType.Enqueue("LobbyRoom");
+        groundRoomType.Enqueue("BookRoom");
+        groundRoomType.Enqueue("LobbyRoom");
+        groundRoomType.Enqueue("BookRoom");
+        groundRoomType.Enqueue("LobbyRoom");
+        groundRoomType.Enqueue("BookRoom");
+        groundRoomType.Enqueue("LobbyRoom");
+        groundRoomType.Enqueue("BookRoom");
+        groundRoomType.Enqueue("LobbyRoom");
+        groundRoomType.Enqueue("BookRoom");
+    }
+
+    private void genRoomEvent()
+    {
+        EventInterface ei = new SpeedLeveaRoomEvent();
+        events.Add(ei);
+
+    }
+
+    private void setRoomEvents(RoomInterface room)
+    {
+
+        //判定房间是处于什么位置 楼上 地面 楼下， 不能出现 有冲突的事件， 比如楼下不能出现掉落事件
+
+        if (room.getXYZ()[2] == roomConstant.ROOM_TYPE_GROUND)
+        {
+
+            //  if () {
+            //      room.setEvent(getRandomEvent());
+            //  }
+        }
+        else if (room.getXYZ()[2] == roomConstant.ROOM_TYPE_UP)
+        {
+
+        }
+        else
+        {
+        }
+
+    }
 
 
-	public GameObject genRoom (int[] xyz, int[] door)
+    public GameObject genRoom (int[] xyz, int[] door)
 	{
 		//房间Prefab所在文件夹路径
 		string roomType = groundRoomType.Dequeue ();
