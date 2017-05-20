@@ -1,0 +1,138 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+public class RoomContraller : MonoBehaviour
+{
+
+	private Queue<String> groundRoomType = new Queue<String> ();
+
+	private Queue<String> upRoomType = new Queue<String> ();
+
+	private Queue<String> downRoomType = new Queue<String> ();
+
+	private Dictionary<int[], RoomInterface> roomList = new Dictionary<int[], RoomInterface> ();
+
+	//这个队列的长度，限制了房间最大数量
+	public RoomContraller ()
+	{
+		groundRoomType.Enqueue ("LobbyRoom");
+		groundRoomType.Enqueue ("BookRoom");
+		groundRoomType.Enqueue ("LobbyRoom");
+		groundRoomType.Enqueue ("BookRoom");
+		groundRoomType.Enqueue ("LobbyRoom");
+		groundRoomType.Enqueue ("BookRoom");
+		groundRoomType.Enqueue ("LobbyRoom");
+		groundRoomType.Enqueue ("BookRoom");
+		groundRoomType.Enqueue ("LobbyRoom");
+		groundRoomType.Enqueue ("BookRoom");
+		groundRoomType.Enqueue ("LobbyRoom");
+		groundRoomType.Enqueue ("BookRoom");
+		groundRoomType.Enqueue ("LobbyRoom");
+		groundRoomType.Enqueue ("BookRoom");
+		groundRoomType.Enqueue ("LobbyRoom");
+		groundRoomType.Enqueue ("BookRoom");
+	}
+
+
+	public GameObject genRoom (int[] xyz, int[] door)
+	{
+		//房间Prefab所在文件夹路径
+		string roomType = groundRoomType.Dequeue ();
+		string url = "Prefabs/" + roomType;
+
+		//仅用Resources.Load会永久修改原形Prefab。应该用Instatiate,操作修改原形的克隆体
+		GameObject room = Instantiate (Resources.Load (url)) as GameObject;
+
+		if (room == null) {
+			Debug.Log ("cant find room Prefab !!!");
+		} else {
+			RoomInterface ri = room.GetComponent (System.Type.GetType (roomType)) as RoomInterface;
+			ri.setXYZ (xyz);
+
+			//根据这房间门的数据，生成对应的门
+			if (door [0] == 1) {
+				//门启用
+				ri.northDoorEnable ();
+				//门属于这个房间
+				GameObject doorGo = ri.getNorthDoor ();
+				doorGo.GetComponent<DoorInterface> ().setRoom (ri);
+				//门外有相邻房间的坐标为
+//				错误代码int[] nextRoomXYZ = xyz;
+//				错误代码nextRoomXYZ [2] += 1原因：一维数组是引用类型,+1会导致xyz[]的修改;
+//				体现为  房间的map坐标!=房间的getXYZ
+
+				//修正为
+				int[] nextRoomXYZ = new int[3];
+				nextRoomXYZ [0] = xyz [0];
+				nextRoomXYZ [1] = xyz [1];
+				nextRoomXYZ [2] = xyz [2];
+				nextRoomXYZ [1] += 1;
+
+				doorGo.GetComponent<DoorInterface> ().setNextRoomXYZ (nextRoomXYZ);
+
+			}
+			if (door [1] == 1) {
+				//门启用
+				ri.southDoorEnable ();
+				//门属于这个房间
+				GameObject doorGo = ri.getSouthDoor ();
+				doorGo.GetComponent<DoorInterface> ().setRoom (ri);
+				//门外有相邻房间的坐标为
+				int[] nextRoomXYZ = new int[3];
+				nextRoomXYZ [0] = xyz [0];
+				nextRoomXYZ [1] = xyz [1];
+				nextRoomXYZ [2] = xyz [2];
+				nextRoomXYZ [1] -= 1;
+
+				doorGo.GetComponent<DoorInterface> ().setNextRoomXYZ (nextRoomXYZ);
+			}
+			if (door [2] == 1) {
+				//门启用
+				ri.westDoorEnable ();
+				//门属于这个房间
+				GameObject doorGo = ri.getWestDoor ();
+				doorGo.GetComponent<DoorInterface> ().setRoom (ri);
+				//门外有相邻房间的坐标为
+				int[] nextRoomXYZ = new int[3];
+				nextRoomXYZ [0] = xyz [0];
+				nextRoomXYZ [1] = xyz [1];
+				nextRoomXYZ [2] = xyz [2];
+				nextRoomXYZ [0] -= 1;
+
+				doorGo.GetComponent<DoorInterface> ().setNextRoomXYZ (nextRoomXYZ);
+			}
+			if (door [3] == 1) {
+				//门启用
+				ri.eastDoorEnable ();
+				//门属于这个房间
+				GameObject doorGo = ri.getEastDoor ();
+				doorGo.GetComponent<DoorInterface> ().setRoom (ri);
+				//门外有相邻房间的坐标为
+				int[] nextRoomXYZ = new int[3];
+				nextRoomXYZ [0] = xyz [0];
+				nextRoomXYZ [1] = xyz [1];
+				nextRoomXYZ [2] = xyz [2];
+				nextRoomXYZ [0] += 1;
+
+				doorGo.GetComponent<DoorInterface> ().setNextRoomXYZ (nextRoomXYZ);
+			}
+			roomList.Add (ri.getXYZ (), ri);
+		}
+
+		return room;
+	}
+
+
+	public RoomInterface findRoomByXYZ (int[] xyz)
+	{
+
+		foreach (int[] key in roomList.Keys) {
+			if (key [0] == xyz [0] && key [1] == xyz [1] && key [2] == xyz [2]) {
+				return roomList [key];
+			}
+		}
+		return null;
+	}
+}

@@ -4,30 +4,34 @@ using UnityEngine;
 
 public class DiceRollCtrl : MonoBehaviour {
 
-    [Range(1,10)]public int dice3Amount = 1;
-    [Range(1,10)]public int dice6Amount = 1;
+//    [Range(1,10)]public int dice3Amount = 1;
+//    [Range(1,10)]public int dice6Amount = 1;
+
+
+
     public int calculateDice(int totalDiceNum, int dic3, int dic6)
     {
         if ((dic3 + dic6) > totalDiceNum)
         {
+			Debug.Log ("输入个数 和 实际个数 不一致");
             return 0;
         }
 
 
-        int[] resD3Array = new int[dice3Amount];
+		int[] resD3Array = new int[dic3];
         int _RollD3resSUM = 0;
-        int[] resD6Array = new int[dice6Amount];
+		int[] resD6Array = new int[dic6];
         int _RollD6resSUM = 0;
-        for (int i=0; i < dice3Amount; i++) {
+		for (int i=0; i < dic3; i++) {
             Dice tem = new Dice3();
             tem.Roll();
             resD3Array[i]=tem.getDiceRes();
             Debug.Log(tem.getDiceRes());
             _RollD3resSUM += tem.getDiceRes();
         }
-        Debug.Log(dice3Amount + " 颗三面骰子的和 " + _RollD3resSUM);
+		Debug.Log(dic3 + " 颗三面骰子的和 " + _RollD3resSUM);
 
-        for (int i = 0; i < dice6Amount; i++) {
+		for (int i = 0; i < dic6; i++) {
             Dice tem = new Dice6();
             tem.Roll();
             resD6Array[i] = tem.getDiceRes();
@@ -35,9 +39,17 @@ public class DiceRollCtrl : MonoBehaviour {
             _RollD6resSUM += tem.getDiceRes();
 
         }
-        Debug.Log(dice6Amount+ " 颗六面骰子的和 " + _RollD6resSUM);
+		Debug.Log(dic6+ " 颗六面骰子的和 " + _RollD6resSUM);
         return _RollD3resSUM + _RollD6resSUM;
 
     }
+
+	//非正式测试用，点击roll按钮，调用roll点功能
+	public void rollBtnDown()
+	{
+		Player ply = FindObjectOfType<Player> ();
+		int res = calculateDice (2,1,1);
+		ply.updateActionPoint (res);
+	}
 
 }

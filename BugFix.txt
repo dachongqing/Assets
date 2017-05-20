@@ -28,3 +28,8 @@
 起因：RoomContraller.cs就Instatiate了房间。InitMap.cs又Instantiate了房间。
 期望修复：只Instantiate一次。
 实际修复：InitMap.cs中的Instantiate的本意是为了调节房间坐标。故删除该语句，另外修改新房间坐标
+
+2017-5-19目前问题
+//游戏开始后，是玩家回合，玩家roll点，有行动力。
+玩家点击门，只能离开当前房间，扣除行动点,人物移动，相机移动
+//进入事件和离开事件，出错了，没有实例化
