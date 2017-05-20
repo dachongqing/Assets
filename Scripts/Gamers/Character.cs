@@ -16,8 +16,11 @@ public interface Character  {
     //回合开始， 玩家空实现
     void roundStart();
 
-    //回合结束
+    //判定回合结束
     bool isRoundOver();
+
+    //回合结束
+    void endRound();
 
     //角色名称
     string getName();

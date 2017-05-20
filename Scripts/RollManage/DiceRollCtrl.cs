@@ -45,11 +45,6 @@ public class DiceRollCtrl : MonoBehaviour {
     }
 
 	//非正式测试用，点击roll按钮，调用roll点功能
-	public void rollBtnDown()
-	{
-		Player ply = FindObjectOfType<Player> ();
-		int res = calculateDice (2,1,1);
-		ply.updateActionPoint (res);
-	}
+	
 
 }

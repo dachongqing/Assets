@@ -30,6 +30,10 @@ public class RoundController : MonoBehaviour
         roundList.Enqueue(chara);
     }
 
+    public void endRound() {
+        this.getCurrentRoundChar().endRound();
+    }
+
     //默认操作状态为玩家操作  
     private OperatorState mState = OperatorState.Player;
 
@@ -92,6 +96,7 @@ public class RoundController : MonoBehaviour
             {
                 mState = OperatorState.Player;
                 //解除黑屏
+                //解锁roll点
             }
             else
             {

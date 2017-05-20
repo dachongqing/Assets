@@ -13,6 +13,8 @@ public class Player : MonoBehaviour, NPC {
 
     private String playerName;
 
+    private bool roundOver;
+
     public int getActionPoint()
     {
         return actionPoint;
@@ -50,8 +52,12 @@ public class Player : MonoBehaviour, NPC {
 
     public bool isRoundOver()
     {
-        return false;
+        return roundOver;
     }
+
+    public void endRound() {
+        this.roundOver = true;
+     }
 
     public bool isWaitPlayer()
     {
@@ -73,7 +79,9 @@ public class Player : MonoBehaviour, NPC {
 		//游戏一开始 所处的房间 默认房间的坐标为 0,0,0
 		int[] roomXYZ={0,0,0};
 		setCurrentRoom(roomXYZ);
-		Debug.Log ("Player.cs Start() 玩家进入默认房间");
+        abilityInfo = new int[] {5,3,6,8 };
+
+        Debug.Log ("Player.cs Start() 玩家进入默认房间");
 	}
 	
 	// Update is called once per frame
